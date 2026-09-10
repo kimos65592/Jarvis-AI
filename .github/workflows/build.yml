@@ -25,9 +25,15 @@ jobs:
           cd jarvis_clean_app
           flutter pub add google_generative_ai speech_to_text flutter_tts url_launcher android_intent_plus intl audioplayers
 
-      - name: Inject JARVIS Code
+      - name: Auto-Find and Inject JARVIS Code
         run: |
-          cp PlayStoreApp/app-contents/jarvis.dart jarvis_clean_app/lib/main.dart
+          JARVIS_PATH=$(find . -name "jarvis.dart" -not -path "*/jarvis_clean_app/*" | head -n 1)
+          if [ -z "$JARVIS_PATH" ]; then
+            echo "Error: jarvis.dart not found anywhere in the repository!"
+            exit 1
+          fi
+          echo "Found jarvis.dart at: $JARVIS_PATH"
+          cp "$JARVIS_PATH" jarvis_clean_app/lib/main.dart
 
       - name: Force Fix Android Compatibility (SDK 23)
         run: |
