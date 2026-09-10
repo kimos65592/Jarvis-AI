@@ -18,17 +18,24 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: ./JarvisAppFlutter
+
+      - name: Create Fresh Flutter Project
+        run: |
+          flutter create jarvis_clean_app
+          cd jarvis_clean_app
+          flutter pub add google_generative_ai speech_to_text flutter_tts url_launcher android_intent_plus intl audioplayers
+
+      - name: Inject JARVIS Code
+        run: |
+          rm jarvis_clean_app/lib/main.dart
+          cp PlayStoreApp/jarvis.dart jarvis_clean_app/lib/main.dart
 
       - name: Build APK
         run: flutter build apk --release
-        working-directory: ./JarvisAppFlutter
+        working-directory: ./jarvis_clean_app
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: jarvis-app
-          path: JarvisAppFlutter/build/app/outputs/flutter-apk/app-release.apk
+          path: jarvis_clean_app/build/app/outputs/flutter-apk/app-release.apk
