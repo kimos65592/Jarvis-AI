@@ -250,7 +250,7 @@ class JarvisScreen extends StatefulWidget {
 
 class _JarvisScreenState extends State<JarvisScreen>
     with SingleTickerProviderStateMixin {
-  final String apiKey = "get your api";
+  final String apiKey = "AQ.Ab8RN6KHm0qKdE0JNH3maCrrUTz8Jq0HzNs2ytPYOh7woMmhng";
 
   late GenerativeModel model;
   late stt.SpeechToText speech;
@@ -288,7 +288,7 @@ class _JarvisScreenState extends State<JarvisScreen>
   @override
   void initState() {
     super.initState();
-    model = GenerativeModel(model: 'put-exact-model-name-here', apiKey: apiKey);
+    model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
     speech = stt.SpeechToText();
     flutterTts = FlutterTts();
 
