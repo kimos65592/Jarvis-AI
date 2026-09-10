@@ -29,15 +29,22 @@ jobs:
         run: |
           JARVIS_PATH=$(find . -name "jarvis.dart" -not -path "*/jarvis_clean_app/*" | head -n 1)
           if [ -z "$JARVIS_PATH" ]; then
-            echo "Error: jarvis.dart not found anywhere in the repository!"
+            echo "Error: jarvis.dart not found!"
             exit 1
           fi
           echo "Found jarvis.dart at: $JARVIS_PATH"
           cp "$JARVIS_PATH" jarvis_clean_app/lib/main.dart
 
-      - name: Force Fix Android Compatibility (SDK 23)
+      - name: Force Fix Android Compatibility (Modern Flutter Style)
         run: |
-          sed -i 's/minSdkVersion .*/minSdkVersion 23/' jarvis_clean_app/android/app/build.gradle
+          GRADLE_PATH=$(find jarvis_clean_app/android -name "build.gradle" -o -name "build.gradle.kts")
+          for file in $GRADLE_PATH; do
+            if grep -q "minSdk" "$file"; then
+              echo "Fixing minSdk in $file"
+              sed -i 's/minSdk = .*/minSdk = 23/' "$file"
+              sed -i 's/minSdkVersion .*/minSdkVersion 23/' "$file"
+            fi
+          done
 
       - name: Build APK
         run: flutter build apk --release
