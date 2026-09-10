@@ -27,8 +27,11 @@ jobs:
 
       - name: Inject JARVIS Code
         run: |
-          rm jarvis_clean_app/lib/main.dart
-          cp PlayStoreApp/jarvis.dart jarvis_clean_app/lib/main.dart
+          cp PlayStoreApp/app-contents/jarvis.dart jarvis_clean_app/lib/main.dart
+
+      - name: Force Fix Android Compatibility (SDK 23)
+        run: |
+          sed -i 's/minSdkVersion .*/minSdkVersion 23/' jarvis_clean_app/android/app/build.gradle
 
       - name: Build APK
         run: flutter build apk --release
