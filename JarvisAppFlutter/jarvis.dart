@@ -288,7 +288,7 @@ class _JarvisScreenState extends State<JarvisScreen>
   @override
   void initState() {
     super.initState();
-    model = GenerativeModel(model: 'put-exact-model-name-here', apiKey: AQ.Ab8RN6KHm0qKdE0JNH3maCrrUTz8Jq0HzNs2ytPYOh7woMmhng);
+    model = GenerativeModel(model: 'put-exact-model-name-here', apiKey: apiKey);
     speech = stt.SpeechToText();
     flutterTts = FlutterTts();
 
